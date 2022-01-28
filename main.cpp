@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include <vector>
+#include <fstream>
 using namespace std;
 int koncowyWynik = 0;
 
@@ -78,8 +78,8 @@ std::string O[16] {"","_","_", "_", "_", "_", "_",
  int getRandNumber(int max, int min) {
     return rand() % (max - min) + min + 1;
 }
-std::string rekaGracza[14];
-std::string ukladaneSlowo;
+std::string rekaGracza[14];// = {};
+std::string ukladaneSlowo[13];// = {};
 
 int punktacja();
 int wynik();                //przypisac punktacje za uzyte litery i zsumowac do globalnego wyniku  - PROSTE JAK DOJENIE SWINI
@@ -89,43 +89,52 @@ void losowanieLiter();
 void ponowneLosowanieLiter();
 void dopelnianieReki();     //napisac metode, ktora bedzie autouzupelniala litery w rece. UWAGA! uzyte litery nie moga sie powtorzyc! - W MIARE IZI
 void tura();                //wymyslec jakis dobry sposob na przeprowadzenie tury   - W MIARE IZI
-void checkWord();           //wczytac plik tekstowy i porownywac ukladaneSlowo z slowami ktore sa juz predefiniowane w DICTIONARY.txt  - CHYBA IZI
 void pierwszeSlowo();       //pierwsze slowo musi zaczynac sie od od gwiazdki
 
-int punktacja (std::string slowo)                                                                                                   //to dziala
+int punktacja (string word)
 {
 
+   // if (word.empty())
+   // {
+   //     koncowyWynik = 0;
+   //     return koncowyWynik;
+   // }
 for (int i = 0; i < 14; i++) {
-    if (ukladaneSlowo[i] == 'A' || ukladaneSlowo[i] == 'E' || ukladaneSlowo[i] == 'I' || ukladaneSlowo[i] == 'N' || ukladaneSlowo[i] == 'O'
-|| ukladaneSlowo[i] == 'R' || ukladaneSlowo[i] == 'S' || ukladaneSlowo[i] == 'W' || ukladaneSlowo[i] == 'Z' || ukladaneSlowo[i] == 'P')
+    if (word[i] == 'A' || word[i] == 'E' || word[i] == 'I' || word[i] == 'N' || word[i] == 'O'
+|| word[i] == 'R' || word[i] == 'S' || word[i] == 'W' || word[i] == 'Z' || word[i] == 'P')
         {
         koncowyWynik += 1;
-        return koncowyWynik;
         }
 
-    else if (ukladaneSlowo[i] == 'C' || ukladaneSlowo[i] == 'D' || ukladaneSlowo[i] == 'K' || ukladaneSlowo[i] == 'L'
-    || ukladaneSlowo[i] == 'M' || ukladaneSlowo[i] == 'T' || ukladaneSlowo[i] == 'Y')
+    else if (word[i] == 'C' || word[i] == 'D' || word[i] == 'K' || word[i] == 'L'
+    || word[i] == 'M' || word[i] == 'T' || word[i] == 'Y')
         {
         koncowyWynik += 2;
-        return koncowyWynik;
         }
 
-    else if (ukladaneSlowo[i] == 'B' || ukladaneSlowo[i] == 'G' || ukladaneSlowo[i] == 'H' || ukladaneSlowo[i] == 'J'
-    || ukladaneSlowo[i] == 'U')
+    else if (word[i] == 'B' || word[i] == 'G' || word[i] == 'H' || word[i] == 'J'
+    || word[i] == 'U')
         {
         koncowyWynik += 3;
-        return koncowyWynik;
         }
 
-    else if (ukladaneSlowo[i] == 'F')
+    else if (word[i] == 'F')
         {
         koncowyWynik += 5;
-        return koncowyWynik;
         }
     else {
         koncowyWynik += 0;
         }
     }
+
+return koncowyWynik;
+}
+
+void ponowneLosowanieLiter() {
+
+}
+string wordCatcher(string word) {
+
 }
 
 void wyswietlaczPlanszy() {                                                                                             //to w miare dziala
@@ -215,69 +224,298 @@ void wyswietlaczPlanszy() {                                                     
         std::cout << O[i+1] << "|";
     }
     std::cout << "\n\n\n";
+    losowanieLiter();
+    tura();
 }
 
-void tworzenieSlowa() {                                                                                                 //to gowno nie dziala!!!!
+string checkWord(string word) {//to gowno nie dziala!!!!
+    fstream newfile;
+
+    newfile.open("DICTIONARY.txt",ios::in); //open a file to perform read operation using file object
+    if (newfile.is_open()){ //checking whether the file is open
+    string tp ="";
+
+    while(getline(newfile, tp)){ //read data from file object and put it into string.
+    cout << tp << "<--------" << "\n"; //print the data of the string
+    }
+    newfile.close(); //close the file object.
+        if (word == tp) {
+            return word;
+        } else
+            return "zwrocilem pusty";
+    }
+
+}
+
+string umiescSlowo(string word) {
+
+    int wybor1;
+    int wybor2;
+    int wybor3;
+
+    std::cout << "\nJak chcesz umiescic nowe slowo?\n (1) - w poziomie\n (2) - w pionie";
+    std::cin >> wybor1;
+
+    if (wybor1 == 1) {
+        std::cout << "\nW ktorym wierszu chcesz umiescic slowo? (1-15)";
+        std::cin >> wybor2;
+
+        std::cout << "\nW ktorej kolumnie chcesz umiescic slowo? (1-15)";
+        std::cin >> wybor3;
+        if (wybor2 == 1)                    //wiersz A
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (A[wybor3 + i] == "_") {
+                    A[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+
+        } else if (wybor2 == 2)               //wiersz B
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (B[wybor3 + i] == "_") {
+                    B[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+        } else if (wybor2 == 3)               //wiersz C
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (C[wybor3 + i] == "_") {
+                    C[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+
+        } else if (wybor2 == 4)               //wiersz D
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (D[wybor3 + i] == "_") {
+                    D[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+
+        } else if (wybor2 == 5)               //wiersz E
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (E[wybor3 + i] == "_") {
+                    E[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+
+            }
+        }
+
+        else if (wybor2 == 6)               //wiersz F
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (G[wybor3 + i] == "_") {
+                    F[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+
+        } else if (wybor2 == 7)               //wiersz G
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (G[wybor3 + i] == "_") {
+                    G[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+
+        } else if (wybor2 == 8)               //wiersz H
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (H[wybor3 + i] == "_") {
+                    H[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+
+            }
+
+        } else if (wybor2 == 9)               //wiersz I
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (I[wybor3 + i] == "_") {
+                    I[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+
+            }
+
+        } else if (wybor2 == 10)               //wiersz J
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (J[wybor3 + i] == "_") {
+                    J[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+
+            }
+
+
+        } else if (wybor2 == 11)               //wiersz K
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (K[wybor3 + i] == "_") {
+                    K[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+                word = "";
+            }
+
+        } else if (wybor2 == 12)               //wiersz L
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (L[wybor3 + i] == "_") {
+                    L[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+
+        } else if (wybor2 == 13)               //wiersz M
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (M[wybor3 + i] == "_") {
+                    M[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+
+        } else if (wybor2 == 14)               //wiersz N
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (N[wybor3 + i] == "_") {
+                    N[wybor3 + i] = word[i];
+
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+
+        } else if (wybor2 == 15)               //wiersz O
+        {
+            for (int i = 0; i < word.length(); i++) {
+                if (O[wybor3 + i] == "_") {
+                    O[wybor3 + i] = word[i];
+                } else {
+                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                    return "";
+                }
+            }
+        }
+
+    } else if (wybor1 == 2) {
+        std::cout << "\nW której kolumnie chcesz umiescic slowo? (1-15)";
+        std::cin >> wybor2;
+
+        std::cout << "\nW którym wierszu chcesz umiescic slowo? (1-15)";
+        std::cin >> wybor3;
+
+    }
+    wyswietlaczPlanszy();
+    wordCatcher(word);
+
+    word = "";
+
+}
+
+
+void tworzenieSlowa() {
     int input;
     std::cout << "\n\n\nJakie slowo chcesz ulozyc?\nPo kolei wybieraj indeksy liter z reki";
 
     bool flag = false;
-
+    int counter = 1;
     if (flag == false) {
         for (int i = 0; i < 13; i++) {
+
+
             std::cin >> input;
             cout << input;
 
-            string dupa = "dupa";
-            for(i=0;i<4;i++){
-                cout << dupa[i];
-            }
-
             if (input > 0 && input < 14) {
                 for (int j = 0; j < sizeof(rekaGracza)/sizeof(rekaGracza[0]); j++) {
-                    cout << "reka gracza input-1 "<< rekaGracza[input-1] << "\n" ;
-                    cout << "reka gracza [j] "<< rekaGracza[j] << "\n";
 
                         if (rekaGracza[input-1] == rekaGracza[j]) {
-                            rekaGracza[j].push_back(ukladaneSlowo[i]);
-                            cout << "Wybrałeś litere: " << ukladaneSlowo[i] << "\n" << "\n";
-                            cout << "Ulozone slowo do tej pory: " << ukladaneSlowo << "\n"<< "\n";
-                        } else if(input == 100){
-                            flag = true;
+                            ukladaneSlowo[i] = rekaGracza[j];
+                            cout << "litera slowa: " << ukladaneSlowo[i] << "\n"<< "\n";
+                            cout << "reka gracza input-1 "<< rekaGracza[input-1] << "\n" ;
+                            cout << "reka gracza [j] "<< rekaGracza[j] << "\n";
+
                         }
                         //to do: mam slowo z 3 liter - czy moge wyjsc i je dac na tablice? W tej wersji chyba nie bo kręce się aż wykorzystam wszystkie
                     }
                     if(flag){
-                        cout << ukladaneSlowo;
                         break;
                     }
-                cout << "Czy ułożyłeś już słowo ? - jeżeli tak to wcisnij 0";
+                cout << "Czy ulozyles już slowo ? - jezeli tak to wcisnij 0\n";
                 }
-                std::cout << "Twoje slowo to: " << ukladaneSlowo;
+            if(input == 100){
+                flag = true;
+                break;
+            }
+            counter++;
         }
+        cout << "ukladane slowo to: ";
+
+        string temp = "";
+       for (int l = 0; l < counter; l++) {
+           temp = temp + ukladaneSlowo[l];
+        }
+        cout << temp << "\n\n";
+        cout << checkWord(temp) << "\n\n";
+
+        checkWord(temp);
+        umiescSlowo(temp);
+        punktacja(checkWord(temp));
+
     }
 }
 
-
-//    if (input.length() < 3 || input.length() > 13) {
-//        std::cout << "slowo musi miec minimum 3 litery i maksymalnie 13 liter!";
-//    } else {
-//    for (int scanner = 0; scanner < input.length(); scanner++) {
-//        for (int scanner2 = 0; scanner2 < input.length(); scanner2++) {
-//            if (rekaGracza[scanner] == input[scanner2] || rekaGracza[scanner2] == input[scanner] || rekaGracza[scanner] == input[scanner] || rekaGracza[scanner2] == input[scanner2]){
-//                std::cout << "poprawne slowo";
-//                ukladaneSlowo[scanner] = input[scanner];
-//            } else
-//            {
-//                std::cout << "niepoprawne slowo!";
-//                break;
-//            }
-//        }
-//        std::cout << "Twoje slowo to: " << ukladaneSlowo[scanner];
-//        punktacja(ukladaneSlowo);
-//        }
-//    }
-//}
 void uzyteLitery() {
 
 }
@@ -316,220 +554,7 @@ void losowanieLiter() {                                                         
     }
 
 
-void umiescSlowo() {
 
-    int wybor1;
-    int wybor2;
-    int wybor3;
-
-    std::cout << "\nJak chcesz umiescic nowe slowo?\n (1) - w poziomie\n (2) - w pionie";
-    std::cin >> wybor1;
-
-    if (wybor1 == 1) {
-        std::cout << "\nW ktorym wierszu chcesz umiescic slowo? (1-15)";
-        std::cin >> wybor2;
-
-        std::cout << "\nW ktorej kolumnie chcesz umiescic slowo? (1-15)";
-        std::cin >> wybor3;
-        if (wybor2 == 1)                    //wiersz A
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (A[wybor3 + i] == "_") {
-                    A[wybor3 + i] = ukladaneSlowo[i];
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-
-        } else if (wybor2 == 2)               //wiersz B
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (B[wybor3 + i] == "_") {
-                    B[wybor3 + i] = ukladaneSlowo[i];
-                    wyswietlaczPlanszy();
-                } else {
-                        std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                        umiescSlowo();
-                    }
-            }
-        } else if (wybor2 == 3)               //wiersz C
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (C[wybor3 + i] == "_") {
-                    C[wybor3 + i] = ukladaneSlowo[i];
-                    ukladaneSlowo[i] = 0;
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 4)               //wiersz D
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (D[wybor3 + i] == "_") {
-                    D[wybor3 + i] = ukladaneSlowo[i];
-                    ukladaneSlowo[i] = 0;
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 5)               //wiersz E
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (E[wybor3 + i] == "_") {
-                    E[wybor3 + i] = ukladaneSlowo[i];
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-        }
-
-        else if (wybor2 == 6)               //wiersz F
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (G[wybor3 + i] == "_") {
-                    F[wybor3 + i] = ukladaneSlowo[i];
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 7)               //wiersz G
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (G[wybor3 + i] == "_") {
-                    G[wybor3 + i] = ukladaneSlowo[i];
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 8)               //wiersz H
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (H[wybor3 + i] == "_") {
-                    H[wybor3 + i] = ukladaneSlowo[i];
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 9)               //wiersz I
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (I[wybor3 + i] == "_") {
-                    I[wybor3 + i] = ukladaneSlowo[i];
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 10)               //wiersz J
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (J[wybor3 + i] == "_") {
-                    J[wybor3 + i] = ukladaneSlowo[i];
-                    ukladaneSlowo[i] = 0;
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-
-        } else if (wybor2 == 11)               //wiersz K
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (K[wybor3 + i] == "_") {
-                    K[wybor3 + i] = ukladaneSlowo[i];
-                    ukladaneSlowo[i] = 0;
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 12)               //wiersz L
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (L[wybor3 + i] == "_") {
-                    L[wybor3 + i] = ukladaneSlowo[i];
-                    ukladaneSlowo[i] = 0;
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 13)               //wiersz M
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (M[wybor3 + i] == "_") {
-                    M[wybor3 + i] = ukladaneSlowo[i];
-                    ukladaneSlowo[i] = 0;
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 14)               //wiersz N
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (N[wybor3 + i] == "_") {
-                    N[wybor3 + i] = ukladaneSlowo[i];
-                    ukladaneSlowo[i] = 0;
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-
-        } else if (wybor2 == 15)               //wiersz O
-        {
-            for (int i = 0; i < ukladaneSlowo.length(); i++) {
-                if (O[wybor3 + i] == "_") {
-                    O[wybor3 + i] = ukladaneSlowo[i];
-                    wyswietlaczPlanszy();
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    umiescSlowo();
-                }
-            }
-        }
-
-    } else if (wybor1 == 2) {
-        std::cout << "\nW której kolumnie chcesz umiescic slowo? (1-15)";
-        std::cin >> wybor2;
-
-        std::cout << "\nW którym wierszu chcesz umiescic slowo? (1-15)";
-        std::cin >> wybor3;
-
-    }
-}
 
 
 void tura() {
@@ -540,7 +565,7 @@ void tura() {
     switch(wybor) {
         case 1:
             tworzenieSlowa();
-            umiescSlowo();
+            break;
             //dobieranie plytki
             //case 2:
             ;
@@ -551,11 +576,6 @@ void tura() {
             break;
 
     }
-}
-
-void checkWord()
-{
-
 }
 
 //int wynik(int sum)
@@ -587,8 +607,7 @@ int main() {
     if (scanner == 1) {
         srand(time(NULL));
         wyswietlaczPlanszy();
-        losowanieLiter();
-        tura();
+
     } else if (scanner == 2) {
         std::cout << "Do zobaczenia!";
         flag = 1;
@@ -597,6 +616,6 @@ int main() {
     {
         std::cout << "Zly wybor!\n";
         main();
-    }
+        }
     }
 }
