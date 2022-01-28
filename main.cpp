@@ -5,92 +5,10 @@
 using namespace std;
 int koncowyWynik = 0;
 
-std::string dostepneLitery = { 'A',
-                               'A',
-                               'A',
-                               'A',
-                               'A'
-                               ,'A'
-                               ,'A'
-                               ,'A'
-                               ,'A'
-                               ,'B'
-                               ,'B'
-                               ,'C'
-                               ,'C'
-                               ,'C'
-                               ,'D'
-                               ,'D'
-                               ,'D'
-                               ,'E'
-                               ,'E'
-                               ,'E'
-                               ,'E'
-                               ,'E'
-                               ,'E'
-                               ,'E'
-                               ,'F'
-                               ,'G'
-                               ,'G'
-                               ,'H'
-                               ,'H'
-                               ,'I'
-                               ,'I'
-                               ,'I'
-                               ,'I'
-                               ,'I'
-                               ,'I'
-                               ,'I'
-                               ,'I'
-                               ,'J'
-                               ,'J'
-                               ,'K'
-                               ,'K'
-                               ,'K'
-                               ,'L'
-                               ,'L'
-                               ,'L'
-                               ,'M'
-                               ,'M'
-                               ,'M'
-                               ,'N'
-                               ,'N'
-                               ,'N'
-                               ,'O'
-                               ,'O'
-                               ,'O'
-                               ,'O'
-                               ,'O'
-                               ,'O'
-                               ,'P'
-                               ,'P'
-                               ,'P'
-                               ,'R'
-                               ,'R'
-                               ,'R'
-                               ,'R'
-                               ,'S'
-                               ,'S'
-                               ,'S'
-                               ,'S'
-                               ,'T'
-                               ,'T'
-                               ,'T'
-                               ,'U'
-                               ,'U'
-                               ,'W'
-                               ,'W'
-                               ,'W'
-                               ,'W'
-                               ,'Y'
-                               ,'Y'
-                               ,'Y'
-                               ,'Y'
-                               ,'Z'
-                               ,'Z'
-                               ,'Z'
-                               ,'Z'
-                               ,'Z'};
+std::string dostepneLitery = { 'A', 'A', 'A', 'A', 'A' ,'A' ,'A' ,'A' ,'A' ,'B' ,'B' ,'C' ,'C' ,'C','D','D','D','E','E',
+                               'E','E','E','E','E','F','G','G','H','H','I','I','I','I','I','I','I','I','J','J','K','K',
+                               'K','L','L','L','M','M','M','N','N','N','O','O','O','O','O','O','P','P','P','R','R','R',
+                               'R','S','S','S','S','T','T','T','U','U','W','W','W','W','Y','Y','Y','Y','Z','Z','Z','Z','Z'};
 
 char pionPlanszy[15] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
                         'L', 'M', 'N', 'O'};
@@ -160,10 +78,10 @@ std::string O[16] {"","_","_", "_", "_", "_", "_",
  int getRandNumber(int max, int min) {
     return rand() % (max - min) + min + 1;
 }
-std::string rekaGracza;
+std::string rekaGracza[14];
 std::string ukladaneSlowo;
-int punktacja();
 
+int punktacja();
 int wynik();                //przypisac punktacje za uzyte litery i zsumowac do globalnego wyniku  - PROSTE JAK DOJENIE SWINI
 void wyswietlaczPlanszy();
 void tworzenieSlowa();      //po utworzeniu dobrego slowa trzeba przypisac je odpowiednim polom       - TE DWA GOWNA SA NAJTRUDNIEJSZE
@@ -316,12 +234,12 @@ void tworzenieSlowa() {                                                         
             }
 
             if (input > 0 && input < 14) {
-                for (int j = 0; j < rekaGracza.length(); j++) {
+                for (int j = 0; j < sizeof(rekaGracza)/sizeof(rekaGracza[0]); j++) {
                     cout << "reka gracza input-1 "<< rekaGracza[input-1] << "\n" ;
                     cout << "reka gracza [j] "<< rekaGracza[j] << "\n";
 
                         if (rekaGracza[input-1] == rekaGracza[j]) {
-                            ukladaneSlowo[i] = rekaGracza[j];
+                            rekaGracza[j].push_back(ukladaneSlowo[i]);
                             cout << "Wybrałeś litere: " << ukladaneSlowo[i] << "\n" << "\n";
                             cout << "Ulozone slowo do tej pory: " << ukladaneSlowo << "\n"<< "\n";
                         } else if(input == 100){
@@ -378,22 +296,23 @@ void losowanieLiter() {                                                         
         std::cout  << i << " ";
     }
     for (int i = 0; i < 7; i++) {
-        if (rekaGracza[i] == 'A' || rekaGracza[i] == 'E' || rekaGracza[i] == 'I' || rekaGracza[i] == 'N' ||
-            rekaGracza[i] == 'O' || rekaGracza[i] == 'R' || rekaGracza[i] == 'S' || rekaGracza[i] == 'W' || rekaGracza[i] == 'Z') {
+        if (rekaGracza[i] == "A" || rekaGracza[i] == "E" || rekaGracza[i] == "I" || rekaGracza[i] == "N" ||
+            rekaGracza[i] == "O" || rekaGracza[i] == "R" || rekaGracza[i] == "S" || rekaGracza[i] == "W" || rekaGracza[i] == "Z") {
             std::cout << "\n" << rekaGracza[i] << " = 1 pkt";
         }
-        else if (rekaGracza[i] == 'C' || rekaGracza[i] == 'D' || rekaGracza[i] == 'K' || rekaGracza[i] == 'L'
-                   || rekaGracza[i] == 'M' || rekaGracza[i] == 'T' || rekaGracza[i] == 'Y') {
+        else if (rekaGracza[i] == "C" || rekaGracza[i] == "D" || rekaGracza[i] == "K" || rekaGracza[i] == "L"
+                   || rekaGracza[i] == "M" || rekaGracza[i] == "T" || rekaGracza[i] == "Y") {
             std::cout << "\n" << rekaGracza[i] << " = 2 pkt";
         }
-        else if (rekaGracza[i] == 'B' || rekaGracza[i] == 'G' || rekaGracza[i] == 'H' || rekaGracza[i] == 'J'
-                   || rekaGracza[i] == 'U') {
+        else if (rekaGracza[i] == "B" || rekaGracza[i] == "G" || rekaGracza[i] == "H" || rekaGracza[i] == "J"
+                   || rekaGracza[i] == "U") {
             std::cout << "\n" << rekaGracza[i] << " = 3 pkt";
         }
-        else if (rekaGracza[i] == 'F') {
+        else if (rekaGracza[i] == "F") {
             std::cout << "\n" << rekaGracza[i] << " = 5 pkt";
             }
         }
+    cout << sizeof(rekaGracza)/sizeof(rekaGracza[0]);
     }
 
 
