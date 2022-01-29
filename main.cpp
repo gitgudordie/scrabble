@@ -2,6 +2,9 @@
 #include <string>
 #include <ctime>
 #include <fstream>
+#include <cstring>
+
+
 using namespace std;
 int koncowyWynik = 0;
 
@@ -44,7 +47,7 @@ std::string G[16] {"","_","_", "_", "_", "_", "_",
                    "_","_","_","_"};
 
 std::string H[16] {"","_","_", "_", "_", "_", "_",
-                   "_", "*", "_", "_", "_",
+                   "_", "_", "_", "_", "_",
                    "_","_","_","_"};
 
 std::string I[16] {"","_","_", "_", "_", "_", "_",
@@ -78,8 +81,9 @@ std::string O[16] {"","_","_", "_", "_", "_", "_",
  int getRandNumber(int max, int min) {
     return rand() % (max - min) + min + 1;
 }
-std::string rekaGracza[14];// = {};
+std::string rekaGracza[14] = {};// = {};
 std::string ukladaneSlowo[13];// = {};
+
 
 int punktacja();
 int wynik();                //przypisac punktacje za uzyte litery i zsumowac do globalnego wyniku  - PROSTE JAK DOJENIE SWINI
@@ -90,6 +94,7 @@ void ponowneLosowanieLiter();
 void dopelnianieReki();     //napisac metode, ktora bedzie autouzupelniala litery w rece. UWAGA! uzyte litery nie moga sie powtorzyc! - W MIARE IZI
 void tura();                //wymyslec jakis dobry sposob na przeprowadzenie tury   - W MIARE IZI
 void pierwszeSlowo();       //pierwsze slowo musi zaczynac sie od od gwiazdki
+
 
 int punktacja (string word)
 {
@@ -131,137 +136,198 @@ return koncowyWynik;
 }
 
 void ponowneLosowanieLiter() {
+    int n = dostepneLitery.length();
 
-}
-string wordCatcher(string word) {
+    // declaring character array
+    char char_array[n + 1];
+    int pussyslayer = sizeof(rekaGracza) / sizeof(rekaGracza[0]);
+    if (sizeof(rekaGracza) / sizeof(rekaGracza[0]) < 15) {
+        int a = rand() % 72 + 1;
+        rekaGracza[pussyslayer + 1] = dostepneLitery[rand() % 72 + 1];
 
-}
 
-void wyswietlaczPlanszy() {                                                                                             //to w miare dziala
+        cout << "Twoja dobrana litera to: " << rekaGracza[pussyslayer + 1] << "\n\n";
 
-    //wspolrzednie kolumn
-    std::cout << "\n  ";
-    for (int i = 1; i < 10; i++) {
-        std::cout << i << "|";
+        cout << "Twoje litery to: ";
+        for (int k = 0; k < sizeof(rekaGracza) / sizeof(rekaGracza[0])+1; k++) {
+            cout << rekaGracza[k];
+        }
+    cout << "\n\n";
+
+        for (int j = 0; j < dostepneLitery.length(); j++) {
+            strcpy(char_array, dostepneLitery.c_str());
+        }
     }
-    for (int i = 0; i < 6; i++) {
-        std::cout << i << "|";
-    }
+    char toLetters[sizeof(char_array)];
+    for (int k = 0; k < sizeof(sizeof(rekaGracza) / sizeof(rekaGracza[0])); k++) {
+        for (int l = 0; l < dostepneLitery.length(); l++) {
 
-    //wspolrzedne wierszy
-    std::cout << "\n" << pionPlanszy[0] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << A[i+1] << "|";
-    }
+            if (rekaGracza[k] == to_string(char_array[l])) {
+                char_array[l] = 'x';
+                break;
+            }
+            for (int g = 0; g < sizeof(char_array); g++) {
+                if (char_array[g] == 'x') {
+                    remove(&char_array[g]);
+                }
+                toLetters[g] = char_array[g];
+            }
+        }
 
-    std::cout << "\n" << pionPlanszy[1] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << B[i+1] << "|";
     }
-
-    std::cout << "\n" << pionPlanszy[2] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << C[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[3] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << D[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[4] << " ";
-    for(int i = 0; i < 15; i++) {
-        std::cout << E[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[5] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << F[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[6] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << G[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[7] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << H[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[8] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << I[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[9] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << J[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[10] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << K[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[11] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << L[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[12] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << M[i+1] << "|";
-     }
-
-    std::cout << "\n" << pionPlanszy[13] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << N[i+1] << "|";
-    }
-
-    std::cout << "\n" << pionPlanszy[14] << " ";
-    for (int i = 0; i < 15; i++) {
-        std::cout << O[i+1] << "|";
-    }
-    std::cout << "\n\n\n";
-    losowanieLiter();
-    tura();
+    dostepneLitery = toLetters;
+    cout << "\n\nOSTEPNE LITERY W PULI -------- > " << dostepneLitery << "<------- DOSTEPNE LITERY W PULI \n\n";
 }
 
-string checkWord(string word) {//to gowno nie dziala!!!!
-    fstream newfile;
 
-    newfile.open("DICTIONARY.txt",ios::in); //open a file to perform read operation using file object
-    if (newfile.is_open()){ //checking whether the file is open
-    string tp ="";
+    string charRemover;
 
-    while(getline(newfile, tp)){ //read data from file object and put it into string.
-    cout << tp << "<--------" << "\n"; //print the data of the string
+    void
+    wyswietlaczPlanszy() {                                                                                             //to w miare dziala
+
+        //wspolrzednie kolumn
+        std::cout << "\n  ";
+        for (int i = 1; i < 10; i++) {
+            std::cout << i << "|";
+        }
+        for (int i = 0; i < 6; i++) {
+            std::cout << i << "|";
+        }
+
+        //wspolrzedne wierszy
+        std::cout << "\n" << pionPlanszy[0] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << A[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[1] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << B[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[2] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << C[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[3] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << D[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[4] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << E[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[5] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << F[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[6] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << G[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[7] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << H[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[8] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << I[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[9] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << J[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[10] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << K[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[11] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << L[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[12] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << M[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[13] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << N[i + 1] << "|";
+        }
+
+        std::cout << "\n" << pionPlanszy[14] << " ";
+        for (int i = 0; i < 15; i++) {
+            std::cout << O[i + 1] << "|";
+        }
+        std::cout << "\n\n\n";
+        losowanieLiter();
+        tura();
     }
-    newfile.close(); //close the file object.
-        if (word == tp) {
-            return word;
-        } else
-            return "zwrocilem pusty";
+
+    string checkWord(string word) {//to gowno nie dziala!!!!
+        fstream newfile;
+
+        newfile.open("DICTIONARY.txt", ios::in); //open a file to perform read operation using file object
+        if (newfile.is_open()) { //checking whether the file is open
+            string tp = "";
+
+            while (getline(newfile, tp)) { //read data from file object and put it into string.
+                cout << tp << "<--------" << "\n"; //print the data of the string
+            }
+            newfile.close(); //close the file object.
+            if (word == tp) {
+                return word;
+            } else
+                return "zwrocilem pusty";
+        }
+        return "checkWord failed!";
     }
+bool pierwszeSlowoNaPlanszy=false;
 
-}
+    string umiescSlowo(string word) {
 
-string umiescSlowo(string word) {
 
-    int wybor1;
-    int wybor2;
-    int wybor3;
+        int wybor1;
+        int wybor2;
+        int wybor3;
 
-    std::cout << "\nJak chcesz umiescic nowe slowo?\n (1) - w poziomie\n (2) - w pionie";
-    std::cin >> wybor1;
+        if (pierwszeSlowoNaPlanszy) {
+            std::cout << "\nJak chcesz umiescic nowe slowo?\n (1) - w poziomie\n (2) - w pionie";
+            std::cin >> wybor1;
+        } else {
+            wybor2 = 8;
+            wybor3 = 8;
 
-    if (wybor1 == 1) {
+                for (int i = 0; i < word.length(); i++) {
+                    if (H[wybor3 + i] == "_") {
+                        H[wybor3 + i] = word[i];
+
+                    } else {
+                        std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                        return "";
+                    }
+
+                }
+            }
+
+
+    if (wybor1 == 1 && pierwszeSlowoNaPlanszy) {
         std::cout << "\nW ktorym wierszu chcesz umiescic slowo? (1-15)";
         std::cin >> wybor2;
 
         std::cout << "\nW ktorej kolumnie chcesz umiescic slowo? (1-15)";
         std::cin >> wybor3;
+
         if (wybor2 == 1)                    //wiersz A
         {
             for (int i = 0; i < word.length(); i++) {
@@ -288,15 +354,14 @@ string umiescSlowo(string word) {
         } else if (wybor2 == 3)               //wiersz C
         {
             for (int i = 0; i < word.length(); i++) {
-                if (C[wybor3 + i] == "_") {
-                    C[wybor3 + i] = word[i];
+                    if (C[wybor3 + i] == "_") {
+                        C[wybor3 + i] = word[i];
 
-                } else {
-                    std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
-                    return "";
-                }
+                    } else {
+                        std::cout << "Nie mozesz tu ustawic nowego wyrazu!";
+                        return "";
+                    }
             }
-
         } else if (wybor2 == 4)               //wiersz D
         {
             for (int i = 0; i < word.length(); i++) {
@@ -321,9 +386,7 @@ string umiescSlowo(string word) {
                 }
 
             }
-        }
-
-        else if (wybor2 == 6)               //wiersz F
+        } else if (wybor2 == 6)               //wiersz F
         {
             for (int i = 0; i < word.length(); i++) {
                 if (G[wybor3 + i] == "_") {
@@ -448,174 +511,194 @@ string umiescSlowo(string word) {
             }
         }
 
-    } else if (wybor1 == 2) {
+    } else if (wybor1 == 2 && pierwszeSlowoNaPlanszy) {
         std::cout << "\nW której kolumnie chcesz umiescic slowo? (1-15)";
         std::cin >> wybor2;
 
         std::cout << "\nW którym wierszu chcesz umiescic slowo? (1-15)";
         std::cin >> wybor3;
 
-    }
-    wyswietlaczPlanszy();
-    wordCatcher(word);
 
-    word = "";
 
 }
+        pierwszeSlowoNaPlanszy = true;
+        wyswietlaczPlanszy();
+        charRemover = word;
+        word = "";
+        return word;
+}
+
+    int GameCounter = 0;
+
+    void uzyteLitery() {
+
+        for (int j = 0; j < charRemover.length(); j++) {
+            if (dostepneLitery[j] == charRemover[j]) {
+                dostepneLitery[j] = 'x';
+            }
+        }
+    }
 
 
-void tworzenieSlowa() {
-    int input;
-    std::cout << "\n\n\nJakie slowo chcesz ulozyc?\nPo kolei wybieraj indeksy liter z reki";
+    void tworzenieSlowa() {
+        int input;
 
-    bool flag = false;
-    int counter = 1;
-    if (flag == false) {
-        for (int i = 0; i < 13; i++) {
+        std::cout << "\n\n\nJakie slowo chcesz ulozyc?\nPo kolei wybieraj indeksy liter z reki";
+        if (GameCounter > 0) {
+            uzyteLitery();
+            ponowneLosowanieLiter();
+        }
+        bool flag = false;
+        int counter = 1; //ilosc znakow w słowie
+        if (flag == false) {
+            for (int i = 0; i < 13; i++) {
 
 
-            std::cin >> input;
-            cout << input;
+                std::cin >> input;
+                cout << input;
 
-            if (input > 0 && input < 14) {
-                for (int j = 0; j < sizeof(rekaGracza)/sizeof(rekaGracza[0]); j++) {
+                if (input > 0 && input < 14) {
+                    for (int j = 0; j < sizeof(rekaGracza) / sizeof(rekaGracza[0]); j++) {
 
-                        if (rekaGracza[input-1] == rekaGracza[j]) {
+                        if (rekaGracza[input - 1] == rekaGracza[j]) {
                             ukladaneSlowo[i] = rekaGracza[j];
-                            cout << "litera slowa: " << ukladaneSlowo[i] << "\n"<< "\n";
-                            cout << "reka gracza input-1 "<< rekaGracza[input-1] << "\n" ;
-                            cout << "reka gracza [j] "<< rekaGracza[j] << "\n";
+                            cout << "litera slowa: " << ukladaneSlowo[i] << "\n" << "\n";
+                            cout << "reka gracza input-1 " << rekaGracza[input - 1] << "\n";
+                            cout << "reka gracza [j] " << rekaGracza[j] << "\n";
 
                         }
                         //to do: mam slowo z 3 liter - czy moge wyjsc i je dac na tablice? W tej wersji chyba nie bo kręce się aż wykorzystam wszystkie
                     }
-                    if(flag){
+                    if (flag) {
+
                         break;
                     }
-                cout << "Czy ulozyles już slowo ? - jezeli tak to wcisnij 0\n";
+                    cout << "Czy ulozyles juz slowo ? - jezeli tak to wcisnij 0\n";
                 }
-            if(input == 100){
-                flag = true;
-                break;
+                if (input == 100) {
+                    flag = true;
+                    break;
+                }
+                //zwiekszam ilosc znakow w slowie
+                counter++;
             }
-            counter++;
+            cout << "ukladane slowo to: ";
+
+            string temp = "";
+            for (int l = 0; l < counter; l++) {
+                temp = temp + ukladaneSlowo[l];
+            }
+
+            cout << temp << "\n\n";
+            cout << checkWord(temp) << "\n\n";
+
+            GameCounter++; //Liczę tury gry
+            checkWord(temp);
+            umiescSlowo(temp);
+            punktacja(checkWord(temp));
+
         }
-        cout << "ukladane slowo to: ";
-
-        string temp = "";
-       for (int l = 0; l < counter; l++) {
-           temp = temp + ukladaneSlowo[l];
-        }
-        cout << temp << "\n\n";
-        cout << checkWord(temp) << "\n\n";
-
-        checkWord(temp);
-        umiescSlowo(temp);
-        punktacja(checkWord(temp));
-
     }
-}
 
-void uzyteLitery() {
 
-}
-void losowanieLiter() {                                                                                                 //to dziala w miare
-    for (int i = 0; i < 7; i++)
-        {
-            int losowaLitera = getRandNumber(86, 1);
-            rekaGracza[i] = dostepneLitery[losowaLitera-1];
+    void losowanieLiter() {                                                                                                 //to dziala w miare
+        for (int i = 0; i < 7; i++) {
+            if (rekaGracza[i] == "x") {
+                rekaGracza[i] = getRandNumber(86, 1);
+            }
+// to do: zrobic fora zeby nie losowal xów
+            int losowaLitera = getRandNumber(dostepneLitery.length(), 1);
+            rekaGracza[i] = dostepneLitery[losowaLitera - 1];
         }
-    std::cout << "\nDostepne litery to:\n";
+
+        uzyteLitery();
+
+        std::cout << "\nDostepne litery to:\n";
         for (int i = 0; i < 7; i++) {
             std::cout << rekaGracza[i] << " ";
         }
         std::cout << "\n";
-    for (int i = 1; i <= 7; i++) {
-        std::cout  << i << " ";
-    }
-    for (int i = 0; i < 7; i++) {
-        if (rekaGracza[i] == "A" || rekaGracza[i] == "E" || rekaGracza[i] == "I" || rekaGracza[i] == "N" ||
-            rekaGracza[i] == "O" || rekaGracza[i] == "R" || rekaGracza[i] == "S" || rekaGracza[i] == "W" || rekaGracza[i] == "Z") {
-            std::cout << "\n" << rekaGracza[i] << " = 1 pkt";
+        for (int i = 1; i <= 7; i++) {
+            std::cout << i << " ";
         }
-        else if (rekaGracza[i] == "C" || rekaGracza[i] == "D" || rekaGracza[i] == "K" || rekaGracza[i] == "L"
-                   || rekaGracza[i] == "M" || rekaGracza[i] == "T" || rekaGracza[i] == "Y") {
-            std::cout << "\n" << rekaGracza[i] << " = 2 pkt";
-        }
-        else if (rekaGracza[i] == "B" || rekaGracza[i] == "G" || rekaGracza[i] == "H" || rekaGracza[i] == "J"
-                   || rekaGracza[i] == "U") {
-            std::cout << "\n" << rekaGracza[i] << " = 3 pkt";
-        }
-        else if (rekaGracza[i] == "F") {
-            std::cout << "\n" << rekaGracza[i] << " = 5 pkt";
+        for (int i = 0; i < 7; i++) {
+            if (rekaGracza[i] == "A" || rekaGracza[i] == "E" || rekaGracza[i] == "I" || rekaGracza[i] == "N" ||
+                rekaGracza[i] == "O" || rekaGracza[i] == "R" || rekaGracza[i] == "S" || rekaGracza[i] == "W" ||
+                rekaGracza[i] == "Z") {
+                std::cout << "\n" << rekaGracza[i] << " = 1 pkt";
+            } else if (rekaGracza[i] == "C" || rekaGracza[i] == "D" || rekaGracza[i] == "K" || rekaGracza[i] == "L"
+                       || rekaGracza[i] == "M" || rekaGracza[i] == "T" || rekaGracza[i] == "Y") {
+                std::cout << "\n" << rekaGracza[i] << " = 2 pkt";
+            } else if (rekaGracza[i] == "B" || rekaGracza[i] == "G" || rekaGracza[i] == "H" || rekaGracza[i] == "J"
+                       || rekaGracza[i] == "U") {
+                std::cout << "\n" << rekaGracza[i] << " = 3 pkt";
+            } else if (rekaGracza[i] == "F") {
+                std::cout << "\n" << rekaGracza[i] << " = 5 pkt";
             }
         }
-    cout << sizeof(rekaGracza)/sizeof(rekaGracza[0]);
+        cout << sizeof(rekaGracza) / sizeof(rekaGracza[0]);
     }
 
 
+    void tura() {
+        int wybor;
+        std::cout << "\n (1) - Umiesc nowe slowo na planszy\n (2) - Dobierz litere\n (3) - Zakoncz gre";
+        std::cin >> wybor;
 
+        switch (wybor) {
+            case 1:
+                tworzenieSlowa();
+                break;
 
+            case 2:
+                ponowneLosowanieLiter();
+                tura();
+                break;
 
-void tura() {
-    int wybor;
-    std::cout << "\n (1) - Umiesc nowe slowo na planszy\n (2) - Dobierz litere\n (3) - Zakoncz gre";
-    std::cin >> wybor;
-
-    switch(wybor) {
-        case 1:
-            tworzenieSlowa();
-            break;
-            //dobieranie plytki
-            //case 2:
-            ;
-
-
-        case 3:
-            std::cout << "Brawo, udalo Ci sie zdobyc: "<< koncowyWynik << " punktow!";
-            break;
-
+            case 3:
+                std::cout << "Brawo, udalo Ci sie zdobyc: " << koncowyWynik << " punktow!";
+                break;
+        }
     }
-}
+
 
 //int wynik(int sum)
 //{
 
 //}
 
-void ponowneLosowanieLiter()
-{
-    if (sizeof(rekaGracza)/sizeof(rekaGracza[0]) < 7) {
-        int i = 7 - sizeof(rekaGracza)/sizeof(rekaGracza[0]);
-        for (int j = 0; j < i; j++) {
-            rekaGracza[j] = getRandNumber(sizeof(dostepneLitery)/sizeof(dostepneLitery[0]), 1);
+//void ponowneLosowanieLiter()
+//{
+//    if (sizeof(rekaGracza)/sizeof(rekaGracza[0]) < 7) {
+//        int i = 7 - sizeof(rekaGracza)/sizeof(rekaGracza[0]);
+//        for (int j = 0; j < i; j++) {
+//            rekaGracza[j] = getRandNumber(sizeof(dostepneLitery)/sizeof(dostepneLitery[0]), 1);
+//        }
+//    }}
+
+
+
+    int main() {
+        int flag = 0;
+        std::cout <<
+                  "Witaj w jednoosobowej wersji gry Scrabble!" << "\n" << "\n"
+                                                                          "Aby zaczac nowa gre wybierz '1'" << "\n"
+                  << "\n"
+                     "Aby wyjsc wybierz '2'" << "\n" << "\n";
+
+        while (flag != 1) {
+            int scanner;
+            std::cin >> scanner;
+            if (scanner == 1) {
+                srand(time(NULL));
+                wyswietlaczPlanszy();
+
+            } else if (scanner == 2) {
+                std::cout << "Do zobaczenia!";
+                flag = 1;
+            } else {
+                std::cout << "Zly wybor!\n";
+                main();
+            }
         }
     }
-
-}
-
-int main() {
-    int flag = 0;
-    std::cout <<
-              "Witaj w jednoosobowej wersji gry Scrabble!" << "\n"<< "\n"
-              "Aby zaczac nowa gre wybierz '1'" << "\n"<< "\n"
-              "Aby wyjsc wybierz '2'" << "\n" << "\n";
-
-    while (flag != 1) {
-    int scanner;
-    std::cin >> scanner;
-    if (scanner == 1) {
-        srand(time(NULL));
-        wyswietlaczPlanszy();
-
-    } else if (scanner == 2) {
-        std::cout << "Do zobaczenia!";
-        flag = 1;
-        }
-    else
-    {
-        std::cout << "Zly wybor!\n";
-        main();
-        }
-    }
-}
